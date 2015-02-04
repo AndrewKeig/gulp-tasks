@@ -9,7 +9,9 @@ This post will demonstrate setting up a gulp build task for a typical web applic
 - Linting with Jshint
 - Running tests with Mocha
 - Running code coverage with Istanbul
-- A build step which concatenates, minifiys and renames using Uglify
+- Running browersify, to make node modules browser compatible with sourcemaps
+- Running Uglify to concatenate and minifiy
+- Running sass including minification with sourcemaps and autoprefixer
 - Reloading a web application with livereload
 - Repeating the above when files are updated
 
