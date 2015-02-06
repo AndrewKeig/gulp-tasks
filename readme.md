@@ -28,7 +28,7 @@ The source code for this post is here:
 
 Lets look at the Gulp api; it basically uses 4 methods to constuct a build task:
 
-`gulp.task` registers a task by name and allows you to sequence dependencies to be executed before the task runs.
+`gulp.task` registers a task by name and allows you to sequence dependencies to be executed before the task runs, these will run in parallel.
 ```javascript
 gulp.task('default', ['dependencies'], function() {
 	...
@@ -91,28 +91,28 @@ $ gulp lint
 
 ##Setup a default task
 
-Gulp tasks are stored in a `gulpfile.js`. We can create a `default` task using `gulp.task('default', ['dependencies'])` which registers a task by name and specifies a list of dependencies to be executed in sequence.  Here he specify all of the tasks we would like to run as part of our workflow.
+Gulp tasks are stored in a `gulpfile.js`. We can create a `default` task using `gulp.task('default', ['dependencies'])` which registers a task by name and specifies a list of dependencies to be executed before this task runs.  Here he specify all of the tasks we would like to run as part of our workflow.
 
 Below we are using `require-dir` which allows us to split up gulp tasks into separate files, `requireDir('./tasks')` will pull them all into our main `gulpfile`.
 
 ```javascript
 'use strict';
 
-var gulp       = require('gulp');
-var requireDir = require('require-dir');
+var gulp       	= require('gulp');
+var requireDir 	= require('require-dir');
+var runSequence = require('run-sequence');
 
 requireDir('./gulp/tasks', { recurse: true });
 
-gulp.task('default', 	
-[ 
-	'lint', 
+gulp.task('default', function(callback) {
+  runSequence('lint', 
 	'test', 
 	'browserify', 
 	'html', 
 	'css',
 	'server', 
-	'watch' 
-]);
+	'watch' , callback);
+});
 
 
 ```
